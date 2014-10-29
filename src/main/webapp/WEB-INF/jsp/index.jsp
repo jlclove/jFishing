@@ -19,7 +19,7 @@
 </body>
 <script type="text/javascript">
 	$(function(){
-		$.getJSON('http://api.map.baidu.com/location/ip?ak=${config.baiduMapAk }&coor=bd09ll',function(data){
+		$.getJSON('/location/ip',function(data){
 			// 百度地图API功能
 			var map = new BMap.Map("allmap");            // 创建Map实例
 			var point = new BMap.Point(data.content.point.x, data.content.point.y); // 创建点坐标
