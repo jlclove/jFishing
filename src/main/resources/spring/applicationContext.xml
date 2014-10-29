@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd"
+       default-autowire="byName" default-lazy-init="false">
+    <mvc:annotation-driven>
+    	<mvc:message-converters>  
+    		<!-- http 请求编码 -->
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+	            <property name="supportedMediaTypes">  
+	                <list>  
+	                    <value>text/plain;charset=UTF-8</value>  
+	                    <value>text/html;charset=UTF-8</value>  
+	                </list>  
+	            </property>  
+	        </bean>  
+	        <!-- json 请求编码 -->
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+	            <property name="supportedMediaTypes">  
+	                <list>  
+	                    <value>application/json; charset=UTF-8</value>  
+	                    <value>application/x-www-form-urlencoded; charset=UTF-8</value>  
+	                </list>  
+	            </property>  
+	        </bean>  
+	    </mvc:message-converters>  
+    </mvc:annotation-driven>
+    
+    <context:component-scan base-package="com.gudlike.fishing.*"/>
+    <context:annotation-config/>
+    <task:annotation-driven/>
+
+	<!-- 静态文件映射 -->
+	<mvc:resources mapping="/static/**" location="/WEB-INF/"/>
+
+
+	<!-- 视图文件映射 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="1000" />
+    </bean>
+    
+    <!-- 引入系统参数 -->
+	<bean id="appConfigurer" class="com.gudlike.fishing.common.AppConfigurer">
+    	 <property name="locations">
+            <list>
+            	<value>classpath:jdbc.properties</value>
+            	<value>classpath:global.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+    </bean>
+    
+    <!-- 数据源配置 -->
+   <!--  <bean id="dyOnlineDataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">   
+        <property name="poolProperties"> 
+            <bean class="org.apache.tomcat.jdbc.pool.PoolProperties">   
+                <property name="driverClassName" value="com.mysql.jdbc.Driver"/> 
+                <property name="url" value="jdbc:mysql://${${env}.dyOnline.jdbc.url}?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="${${env}.dyOnline.jdbc.username}"/>   
+                <property name="password" value="${${env}.dyOnline.jdbc.password}"/> 
+                <property name="jmxEnabled" value="true"/> 
+                <property name="testWhileIdle" value="true"/> 
+                <property name="testOnBorrow" value="true"/>   
+                <property name="testOnReturn" value="false"/>   
+                <property name="validationInterval" value="30000"/>  
+                <property name="validationQuery" value="SELECT 1"/>   
+                <property name="timeBetweenEvictionRunsMillis" value="30000"/>   
+                <property name="maxActive" value="100"/>   
+                <property name="initialSize" value="10"/>   
+                <property name="maxWait" value="10000"/>   
+                <property name="minEvictableIdleTimeMillis" value="30000"/>   
+                <property name="minIdle" value="10"/>   
+                <property name="logAbandoned" value="false"/>   
+                <property name="removeAbandoned" value="true"/>   
+                <property name="removeAbandonedTimeout" value="60"/> 
+                <property name="jdbcInterceptors" value="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"/>   
+            </bean>   
+        </property>   
+    </bean>   -->
+    
+    <!-- 配置sqlSessionFactory --> 
+<!--     <bean id="dyOnlineSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
+        <property name="configLocation" value="classpath:mappers/mybatis-config.xml" /> 
+        <property name="dataSource" ref="dyOnlineDataSource" /> 
+    </bean> -->
+  	
+  	<!-- 注入数据库dao -->
+<!--   	<bean id="queryDao" class="com.dooioo.base.dao.QueryDao" autowire="byName"  p:sqlSessionFactory-ref="dyOnlineSqlSessionFactory"/>
+     -->
+    <!-- 配置事务管理器，注意这里的dataSource和SqlSessionFactoryBean的dataSource要一致，不然事务就没有作用了 --> 
+<!--     <bean id="transactionManager" 
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
+        <property name="dataSource" ref="dyOnlineDataSource" /> 
+    </bean> -->
+<!-- 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <mvc:mapping path="/ershoufang/**"/>
+            <mvc:mapping path="/json/**"/>
+            <mvc:exclude-mapping path="/m"/>
+            <bean class="com.dooioo.dyonline.web.inteceptor.WebInteceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors> -->
+
+</beans>
