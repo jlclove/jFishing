@@ -10,7 +10,6 @@
        <jackson-version>2.4.0-rc1</jackson-version>
    </properties>
   <build>
-    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -149,10 +148,5 @@
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
-        <dependency>
-		  <groupId>apache-httpclient</groupId>
-		  <artifactId>commons-httpclient</artifactId>
-		  <version>3.1</version>
-		</dependency>
     </dependencies>
 </project>
