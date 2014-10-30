@@ -5,6 +5,13 @@ import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
+
+/**
+ * 鱼点
+ * @author jail
+ *
+ * @date 2014年10月30日
+ */
 @Alias("point")
 public class Point implements Serializable {
 
@@ -17,7 +24,7 @@ public class Point implements Serializable {
 	/**
 	 * 渔点类型
 	 */
-	private int pointType;
+	private int typeId;
 	/**
 	 * 渔点
 	 */
@@ -39,6 +46,14 @@ public class Point implements Serializable {
 	 */
 	private Integer updator;
 	/**
+	 * 纬度
+	 */
+	private Double latitude;
+	/**
+	 * 经度
+	 */
+	private Double longitude;
+	/**
 	 * 获得 id int
 	 * @return id
 	 */
@@ -53,18 +68,18 @@ public class Point implements Serializable {
 		this.id = id;
 	}
 	/**
-	 * 获得 pointType int
-	 * @return pointType
+	 * 获得 typeId int
+	 * @return typeId
 	 */
-	public int getPointType() {
-		return pointType;
+	public int getTypeId() {
+		return typeId;
 	}
 	/**
-	 * 设置 pointType
-	 * @param pointType 
+	 * 设置 typeId
+	 * @param typeId 
 	 */
-	public void setPointType(int pointType) {
-		this.pointType = pointType;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 	/**
 	 * 获得 remark String
@@ -136,15 +151,42 @@ public class Point implements Serializable {
 	public void setUpdator(Integer updator) {
 		this.updator = updator;
 	}
-	/* 
+	/**
+	 * 获得 latitude Double
+	 * @return the latitude
+	 */
+	public Double getLatitude() {
+		return latitude;
+	}
+	/**
+	 * 设置 latitude Double
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+	/**
+	 * 获得 longitude Double
+	 * @return the longitude
+	 */
+	public Double getLongitude() {
+		return longitude;
+	}
+	/**
+	 * 设置 longitude Double
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Point [id=" + id + ", pointType=" + pointType + ", remark="
-				+ remark + ", createTime=" + createTime + ", creator="
-				+ creator + ", updateTime=" + updateTime + ", updator="
-				+ updator + "]";
+		return "Point [id=" + id + ", typeId=" + typeId + ", remark=" + remark
+				+ ", createTime=" + createTime + ", creator=" + creator
+				+ ", updateTime=" + updateTime + ", updator=" + updator
+				+ ", latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
-	
 }
