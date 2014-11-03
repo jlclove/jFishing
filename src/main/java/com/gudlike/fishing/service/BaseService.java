@@ -1,15 +1,15 @@
 package com.gudlike.fishing.service;
 
+
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gudlike.fishing.dao.QueryDao;
 import com.gudlike.fishing.model.Page;
 import com.gudlike.tools.utils.ReflectUtil;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Service 通用方法 User: Jail Hu Date: 2014-4-10 下午18:21
@@ -48,11 +48,22 @@ public abstract class BaseService<T> {
 		return this.queryDao.getSqlSession().selectOne(sqlId(sqlId), obj);
 	}
 
-    public T selectOneById(String sqlId, Serializable id) {
-        return this.queryDao.getSqlSession().selectOne(sqlId(sqlId), id);
-    }
+	public T selectOne(String sqlId) {
+		return this.queryDao.getSqlSession().selectOne(sqlId(sqlId));
+	}
 
     /**
+     * 获得指定记录
+     *
+     * @param sqlId
+     *            xml的id ,如果id包含命名空间则直接用id，否则增加 T 为 命名空间,比如 A.B 则不变，不然会调整为 A.B
+     * @return T
+     */
+    public Integer selectLastId(String sqlId) {
+        return this.queryDao.getSqlSession().selectOne(sqlId(sqlId));
+    }
+
+	/**
 	 * 获得列表
 	 * 
 	 * @param sqlId
@@ -76,31 +87,7 @@ public abstract class BaseService<T> {
 		return this.queryDao.getSqlSession().selectList(sqlId(sqlId), obj);
 	}
 
-    /**
-     * 获取结果的map 集合
-     *
-     * @param sqlId
-     *            xml的ID ,如果id包含命名空间则直接用id，否则增加 T 为 命名空间,比如 A.B 则不变，不然会调整为 A.B
-     * @param obj
-     *            查询参数(对象)
-     * @return  Map<String,Object>
-     */
-    public Map<String,Object> selectMap(String sqlId, Object obj,String key) {
-        return this.queryDao.getSqlSession().selectMap(sqlId, obj, key);
-    }
-
-    /**
-     * 获取结果的map 集合
-     *
-     * @param sqlId
-     *            xml的ID ,如果id包含命名空间则直接用id，否则增加 T 为 命名空间,比如 A.B 则不变，不然会调整为 A.B
-     *            查询参数(对象)
-     * @return  Map<String,Object>
-     */
-    public Map<String,Map<String,String>> selectMap(String sqlId,String key) {
-        return this.queryDao.getSqlSession().selectMap(sqlId, key);
-    }
-    /**
+	/**
 	 * 获得数据统计数
 	 * 
 	 * @param sqlId
@@ -151,16 +138,15 @@ public abstract class BaseService<T> {
      * @param sqlId xml的id ,如果id包含命名空间则直接用id，否则增加 T 为 命名空间,比如 A.B 则不变，不然会调整为 A.B
      * @param obj 对象名称
      *  mysql xml 返回主键写法 <selectKey resultType="java.lang.Integer"  order="AFTER" keyProperty="id" >
-    SELECT LAST_INSERT_ID() AS ID
-    </selectKey>
+                                    SELECT LAST_INSERT_ID() AS ID
+                             </selectKey>
      * @return 主键id
      */
     public int insertAndReturnId(String sqlId, Object obj){
         return this.queryDao.getSqlSession().insert(sqlId(sqlId),obj);
     }
 
-
-    /**
+	/**
 	 * 更新行数据
 	 * 
 	 * @param sqlId
@@ -223,9 +209,8 @@ public abstract class BaseService<T> {
 	 * @return
 	 */
 	public List<T> selectByPage(String sqlId, Page page) {
-		return this.queryDao.getSqlSession().selectList(sqlId(sqlId), page);
-		//return this.queryDao.getSqlSession().selectList(sqlId(sqlId), page,
-		//		new RowBounds(page.getPageNo() * page.getPageSize(), page.getPageSize()));
+		return this.queryDao.getSqlSession().selectList(sqlId(sqlId), page,
+				new RowBounds(page.getPageNo() * page.getPageSize(), page.getPageSize()));
 	}
 
 	/**
@@ -238,6 +223,4 @@ public abstract class BaseService<T> {
 		return sqlId.contains(".") ? sqlId
 				: (entityClass.getSimpleName() + "." + sqlId);
 	}
-
-
 }

@@ -13,6 +13,6 @@ public class TestPointService extends BaseTest {
 
 	@Test
 	public void testGetListInRange() {
-		System.out.println(pointService.getListInRange());
+	//	System.out.println(pointService.getListInRange());
 	}
 }

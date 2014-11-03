@@ -5,6 +5,13 @@ import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
 
+
+/**
+ * 鱼点
+ * @author jail
+ *
+ * @date 2014年10月30日
+ */
 @Alias("point")
 public class Point implements Serializable {
 
@@ -38,6 +45,14 @@ public class Point implements Serializable {
 	 * 更新人
 	 */
 	private Integer updator;
+	/**
+	 * 纬度
+	 */
+	private Double latitude;
+	/**
+	 * 经度
+	 */
+	private Double longitude;
 	/**
 	 * 获得 id int
 	 * @return id
@@ -136,7 +151,35 @@ public class Point implements Serializable {
 	public void setUpdator(Integer updator) {
 		this.updator = updator;
 	}
-	/* 
+	/**
+	 * 获得 latitude Double
+	 * @return the latitude
+	 */
+	public Double getLatitude() {
+		return latitude;
+	}
+	/**
+	 * 设置 latitude Double
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+	/**
+	 * 获得 longitude Double
+	 * @return the longitude
+	 */
+	public Double getLongitude() {
+		return longitude;
+	}
+	/**
+	 * 设置 longitude Double
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -146,5 +189,4 @@ public class Point implements Serializable {
 				+ creator + ", updateTime=" + updateTime + ", updator="
 				+ updator + "]";
 	}
-	
 }
