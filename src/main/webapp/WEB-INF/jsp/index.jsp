@@ -37,15 +37,13 @@ body {
 </body>
 <script type="text/javascript">
 	$(function() {
-		// 百度地图API功能
-		var map = new BMap.Map("container"); // 创建Map实例
-		var control  = new BMap.GeolocationControl({showAddressBar:false,
-													enableAutoLocation:true});
-		map.addControl(control);
-		map.addControl(new BMap.MapTypeControl());
-		
-		control.addEventListener('locationSuccess', function(){});
-		control.addEventListener('locationError', function(){console.log(1111);});
+		console.log(11);
+		$.getJSON('/api/baidu/location/ip',function(data){
+			var map = new BMap.Map("container");
+			var point = new BMap.Point(data.content.point.x, data.content.point.y);
+			map.centerAndZoom(point,18);
+			map.addControl(new BMap.ZoomControl());
+		});
 	});
 </script>
 </html>

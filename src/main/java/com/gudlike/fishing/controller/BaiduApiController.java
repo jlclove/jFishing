@@ -12,7 +12,7 @@ import com.gudlike.tools.utils.HttpClientUtil;
 import com.gudlike.tools.utils.TextUtil;
 
 @Controller
-@RequestMapping("/baidu")
+@RequestMapping("/api/baidu")
 public class BaiduApiController {
 
 	@RequestMapping("/location/ip")

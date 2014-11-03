@@ -49,17 +49,28 @@
         <property name="order" value="1000" />
     </bean>
     
-    <!-- 引入系统参数 -->
-	<bean id="appConfigurer" class="com.gudlike.fishing.common.AppConfigurer">
-    	 <property name="locations">
-            <list>
-            	<value>classpath:jdbc.properties</value>
-            	<value>classpath:global.properties</value>
-            </list>
-        </property>
-        <property name="ignoreResourceNotFound" value="true" />
-        <property name="ignoreUnresolvablePlaceholders" value="true" />
-    </bean>
+    <!-- 引入系统appConfigurer参数 -->
+	<bean id="loadGrobal"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:global.properties</value>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+	</bean>
+
+	<!-- 将环境参数直接注入到 appConfigurer类 -->
+	<bean id="appConfigurer" class="com.gudlike.fishing.common.AppConfigurer"
+		depends-on="loadGrobal">
+		<property name="env">
+			<value>${env}</value>
+		</property>
+		<property name="version">
+			<value>${version}</value>
+		</property>
+	</bean>
     
     <!-- 数据源配置 -->
      <bean id="fishingDataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">   

@@ -1,13 +1,11 @@
 package com.gudlike.fishing.common;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
-public class AppConfigurer extends PropertyPlaceholderConfigurer {
+public class AppConfigurer{
 
 	/**
 	 * 系统版本号
@@ -17,21 +15,6 @@ public class AppConfigurer extends PropertyPlaceholderConfigurer {
 	 * 系统环境
 	 */
 	private String env;
-
-	@Override
-	protected Properties mergeProperties() throws IOException {
-		// TODO Auto-generated method stub
-		Properties properties = super.mergeProperties();
-		this.setEnv(properties.getProperty("env"));
-		this.setVersion(properties.getProperty("version"));
-		return properties;
-	}
-
-	public static AppConfigurer getInstance() {
-		WebApplicationContext wac = ContextLoader
-				.getCurrentWebApplicationContext();
-		return (AppConfigurer) wac.getBean("appConfigurer");
-	}
 
 	/**
 	 * 获得 version String
@@ -65,5 +48,41 @@ public class AppConfigurer extends PropertyPlaceholderConfigurer {
 	 */
 	public void setEnv(String env) {
 		this.env = env;
+	}
+	
+	
+	/**
+	 * 临时 单例变量
+	 */
+	private static AppConfigurer appConfigurer;
+
+	/**
+	 * 单例
+	 * 
+	 * @return
+	 */
+	public synchronized static AppConfigurer getInstance() {
+		WebApplicationContext webApplicationContext = ContextLoader
+				.getCurrentWebApplicationContext();
+		if (webApplicationContext == null) {
+			if (appConfigurer == null) {
+				appConfigurer = new AppConfigurer();
+				PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration();
+				propertiesConfiguration.setEncoding("utf-8");
+				try {
+					propertiesConfiguration.load("global.properties");
+					appConfigurer.setEnv(propertiesConfiguration
+							.getString("env"));
+					appConfigurer.setVersion(propertiesConfiguration
+							.getString("version"));
+				} catch (ConfigurationException e) {
+					e.printStackTrace();
+				}
+			}
+			return appConfigurer;
+		} else {
+			return (AppConfigurer) webApplicationContext
+					.getBean("appConfigurer");
+		}
 	}
 }

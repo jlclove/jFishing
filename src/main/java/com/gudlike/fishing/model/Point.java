@@ -17,7 +17,7 @@ public class Point implements Serializable {
 	/**
 	 * 渔点类型
 	 */
-	private int pointType;
+	private int typeId;
 	/**
 	 * 渔点
 	 */
@@ -53,18 +53,18 @@ public class Point implements Serializable {
 		this.id = id;
 	}
 	/**
-	 * 获得 pointType int
-	 * @return pointType
+	 * 获得 typeId int
+	 * @return typeId
 	 */
-	public int getPointType() {
-		return pointType;
+	public int getTypeId() {
+		return typeId;
 	}
 	/**
-	 * 设置 pointType
-	 * @param pointType 
+	 * 设置 typeId
+	 * @param typeId 
 	 */
-	public void setPointType(int pointType) {
-		this.pointType = pointType;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 	/**
 	 * 获得 remark String
@@ -141,7 +141,7 @@ public class Point implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Point [id=" + id + ", pointType=" + pointType + ", remark="
+		return "Point [id=" + id + ", typeId=" + typeId + ", remark="
 				+ remark + ", createTime=" + createTime + ", creator="
 				+ creator + ", updateTime=" + updateTime + ", updator="
 				+ updator + "]";

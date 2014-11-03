@@ -4,11 +4,10 @@
 	<settings>
 		<setting name="logImpl" value="STDOUT_LOGGING" />
 	</settings>
-	<!-- <typeAliases>
-		<package name="com.dyrent.model" />
+	<typeAliases>
+		<package name="com.gudlike.fishing.model" />
 	</typeAliases>
 	<mappers>
-		<mapper resource="mappers/HouseMessage.xml" />
-		<mapper resource="mappers/HousePicture.xml" />
-	</mappers> -->
+		<mapper resource="mappers/Point.xml" />
+	</mappers>
 </configuration>
