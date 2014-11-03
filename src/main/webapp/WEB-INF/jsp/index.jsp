@@ -11,21 +11,7 @@
 <meta name="format-detection" content="telephone=no" searchtype="map">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<style type="text/css">
-html {
-	height: 100%
-}
-
-body {
-	height: 100%;
-	margin: 0px;
-	padding: 0px
-}
-
-#container {
-	height: 100%
-}
-</style>
+<link href="/static/css/main.css" rel="stylesheet">
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=1.5&ak=${config.baiduMapAk }"></script>
 <title>地图官网展示效果</title>
@@ -37,13 +23,37 @@ body {
 </body>
 <script type="text/javascript">
 	$(function() {
-		console.log(11);
-		$.getJSON('/api/baidu/location/ip',function(data){
+		$.getJSON('/api/baidu/location/ip', function(data) {
 			var map = new BMap.Map("container");
-			var point = new BMap.Point(data.content.point.x, data.content.point.y);
-			map.centerAndZoom(point,18);
-			map.addControl(new BMap.ZoomControl());
+			var point = new BMap.Point(data.content.point.x,
+					data.content.point.y);
+			map.centerAndZoom(point, 18);
+			map.addControl(new BMap.ScaleControl());
+			var la = map.getBounds();
+			$.getJSON('/point/getPointListInRange?startLatitude=' + la.zc
+					+ '&endLatitude=' + la.wc + '&startLongitude=' + la.yc
+					+ '&endLongitude=' + la.vc,
+					function(data) {
+						for (var i = 0; i < data.result.length; i++) {
+							map.addOverlay(createMark(data.result[i]));
+						}
+					});
 		});
+		
+		createMark = function(point){
+			var marker = new BMap.Marker(new BMap.Point(point.latitude,
+					point.longitude));
+			marker.addEventListener("click", function(type) {
+				this.openInfoWindow(new BMap.InfoWindow(
+						'<div class="infoWindow"><p class="title">'
+								+ point.typeName
+								+ '（ID：' + point.id
+								+ '）</p><p>'
+								+ point.remark
+								+ '</p></div>'));
+			});
+			return marker;
+		}
 	});
 </script>
 </html>
