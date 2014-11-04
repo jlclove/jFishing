@@ -23,24 +23,39 @@
 </body>
 <script type="text/javascript">
 	$(function() {
+		var pointArray = new Array();
+		var focusMarker;
 		$.getJSON('/api/baidu/location/ip', function(data) {
 			var map = new BMap.Map("container");
 			var point = new BMap.Point(data.content.point.x,
 					data.content.point.y);
 			map.centerAndZoom(point, 18);
 			map.addControl(new BMap.ScaleControl());
-			var la = map.getBounds();
-			$.getJSON('/point/getPointListInRange?startLatitude=' + la.zc
-					+ '&endLatitude=' + la.wc + '&startLongitude=' + la.yc
-					+ '&endLongitude=' + la.vc,
-					function(data) {
-						for (var i = 0; i < data.result.length; i++) {
-							map.addOverlay(createMark(data.result[i]));
-						}
-					});
+			loadPoint(map);
+			//移动地图后的载入渔点
+			map.addEventListener('moveend',function(type){
+				for(var i= 0; i<pointArray.length;i++){
+					map.removeOverlay(pointArray[i]);
+					pointArray = new Array();
+				}
+				loadPoint(map);
+			});
+			
+			//点击准备创建渔点
+			map.addEventListener('click',function(type,target){
+				console.log(type);
+				map.removeOverlay(focusMarker);
+				focusMarker = new BMap.Marker(type.point);
+				map.addOverlay(focusMarker);
+				map.openInfoWindow(new BMap.InfoWindow(
+				'<a href="/point/add">添加为渔点</a>',{width:220,height:60,enableMessage:false,offset:new BMap.Size(0,-22)}),type.point);
+				//map.addTileLayer();
+				//loadPoint(map);
+			});
 		});
 		
-		createMark = function(point){
+		//创建渔点
+		createPoint = function(point){
 			var marker = new BMap.Marker(new BMap.Point(point.latitude,
 					point.longitude));
 			marker.addEventListener("click", function(type) {
@@ -53,6 +68,20 @@
 								+ '</p></div>'));
 			});
 			return marker;
+		}
+		//载入渔点
+		loadPoint = function(map){
+			var la = map.getBounds();
+			$.getJSON('/point/getPointListInRange?startLatitude=' + la.zc
+					+ '&endLatitude=' + la.wc + '&startLongitude=' + la.yc
+					+ '&endLongitude=' + la.vc,
+					function(data) {
+						for (var i = 0; i < data.result.length; i++) {
+							var marker = createPoint(data.result[i]);
+							pointArray.push(marker);
+							map.addOverlay(marker);
+						}
+					});
 		}
 	});
 </script>

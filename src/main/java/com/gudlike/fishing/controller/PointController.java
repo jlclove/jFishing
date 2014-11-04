@@ -28,4 +28,9 @@ public class PointController extends BaseController {
 				Double.parseDouble(request.getParameter("endLongitude"))));
 	}
 
+	@RequestMapping("/add")
+	protected String add(HttpServletRequest request) {
+		return "point/add";
+	}
+
 }
