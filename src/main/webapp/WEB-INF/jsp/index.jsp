@@ -15,6 +15,7 @@
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=1.5&ak=${config.baiduMapAk }"></script>
 <title>地图官网展示效果</title>
+<script src="/static/js/vendor/modernizr.js"></script>
 <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/static/js/foundation.min.js"></script>
 </head>
