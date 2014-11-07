@@ -33,4 +33,8 @@ public class PointController extends BaseController {
 		return "point/add";
 	}
 
+	@RequestMapping("/test")
+	protected String test(HttpServletRequest request) {
+		return "point/test";
+	}
 }
