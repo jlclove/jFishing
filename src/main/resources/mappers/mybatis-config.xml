@@ -9,5 +9,6 @@
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/Point.xml" />
+		<mapper resource="mappers/Fish.xml" />
 	</mappers>
 </configuration>

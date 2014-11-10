@@ -21,3 +21,19 @@ body {
 	padding:0;
 	margin:0
 }
+.ml_1em{
+	margin-left:1em;
+}
+
+.pl_1em{
+	padding-left:1em;
+}
+
+.pointAddForm {
+	width:100%;
+}
+
+.width33{
+	width:33%;
+}
+

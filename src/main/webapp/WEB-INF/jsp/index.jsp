@@ -10,42 +10,54 @@
 <div id="pointModal" class="reveal-modal" data-reveal>
   <h2>添加渔点</h2>
   <p class="lead">输入相关信息.</p>
-  <table cellspacing="0" cellpadding="0">
+  <table cellspacing="0" cellpadding="0" class="pointAddForm">
   	<tr>
-  		<td>类型:</td><td><select name="typeId">
+  		<td class="width33">
+  			<label class="right inline">类型:</label></td><td><select name="typeId">
   							<option>鱼塘</option>
   							<option>野外鱼点</option>
   							<option>渔具店</option>
   						</select></td>
   	</tr>
   	<tr>
-  		<td>鱼种类：</td><td></td>
+  		<td><label class="right inline">鱼种类：</label></td><td>
+														  		<a href="#" data-dropdown="drop1" >选择鱼种类</a>
+																<ul id="drop1" class="f-dropdown" data-dropdown-content>
+																  <c:forEach items="${fishList }" var="fish">
+																  <li class="pl_1em"><input type="checkbox" name="fishCheck" value="${fish.id }" id="fish_${fish.id}"><label for="fish_${fish.id}" class="inline">${fish.fishName}</label></li>
+																  </c:forEach>
+																</ul>
+															</td>
   	</tr>
   	<tr>
-  		<td>钓鱼水深：</td><td></td>
+  		<td><label class="right inline">钓鱼水深：</label></td><td><select name="waterDeep" class="left width33">
+  							<c:forEach begin="20" end="400" var="i">
+  								<option value="${i }">${i }厘米</option>
+  							</c:forEach>
+  						</select></td>
   	</tr>
   	<tr>
-  		<td>钓鱼费用：</td><td><select name="price">
-  							<option>0元</option>
-  							<option>1元</option>
-  							<option>2元</option>
+  		<td><label class="right inline">钓鱼费用：</label></td><td><select name="price" class="left width33">
+  							<c:forEach begin="0" end="250" var="i">
+  								<option value="${i }">${i }元</option>
+  							</c:forEach>
   						</select>
-  						<select name="unit">
+  						<select name="unit" class="left width33 ml_1em">
   							<option>天</option>
   							<option>小时</option>
   							<option>斤</option>
   						</select></td>
   	</tr>
   	<tr>
-  		<td>是否可以夜钓：</td><td><label><input type="radio" value="1" name="nightFish">是</label>
-  								<label><input type="radio" value="0" name="nightFish">否</label></td>
+  		<td><label class="right inline">是否可以夜钓：</label></td><td><input type="radio" value="1" name="nightFish" id="nightFishYes"><label for="nightFishYes">是</label>
+  								<input type="radio" value="0" name="nightFish" id="nightFishNo" checked="checked"><label for="nightFishNo">否</label></td>
   	</tr>
 	<tr>
-  		<td>是否方便停车：</td><td><label><input type="radio" value="1" name="easyPark">是</label>
-  								<label><input type="radio" value="0" name="easyPark">否</label></td>
+  		<td><label class="right inline">是否方便停车：</label></td><td><input type="radio" value="1" name="easyPark" id="easyParkYes"><label for="easyParkYes">是</label>
+  								<input type="radio" value="0" name="easyPark" id="easyParkNo" checked="checked"><label for="easyParkNo">否</label></td>
   	</tr>
   	<tr>
-  		<td>描述：</td><td><textarea name="remark"></textarea></td>
+  		<td><label class="right inline">描述：</label></td><td><textarea name="remark"></textarea></td>
   	</tr>
  	<tr>
   		<td colspan="2">

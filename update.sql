@@ -32,3 +32,7 @@ ADD COLUMN `price` INT NOT NULL DEFAULT 0 COMMENT '钓鱼费用' ,
 ADD COLUMN `unit` VARCHAR(30) NOT NULL COMMENT '钓鱼费用单位' ,
 ADD COLUMN `nightFish` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否可以夜钓' ,
 ADD COLUMN `easyPark` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否方便停车' 
+
+INSERT INTO `gudlike_fishing`.`t_fish` (`fishName`, `remark`) VALUES ('桂鱼', '很好吃的鱼');
+INSERT INTO `gudlike_fishing`.`t_fish` (`fishName`, `remark`) VALUES ('鲶鱼', '水煮用比较多');
+
