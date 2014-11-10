@@ -6,4 +6,11 @@
 		where latitude between #{startLatitude} and #{endLatitude}
 		and longitude between #{startLongitude} and #{endLongitude}
 	</select>
+	
+	<insert id="insert">
+		insert into T_Point (typeId,remark,creator,updator,latitude,longitude,
+							 waterDeep,price,unit,nightFish,easyPark)
+		values (#{typeId},#{remark},#{creator},#{creator},#{latitude},#{longitude},
+							 #{waterDeep},#{price},#{unit},#{nightFish},#{easyPark})
+	</insert>
 </mapper>

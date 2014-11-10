@@ -54,6 +54,26 @@ public class Point implements Serializable {
 	 */
 	private Double longitude;
 	/**
+	 * 钓鱼水深
+	 */
+	private int waterDeep;
+	/**
+	 * 钓鱼费用
+	 */
+	private int price;
+	/**
+	 * 钓鱼费用单位
+	 */
+	private String unit;
+	/**
+	 * 是否可以夜钓
+	 */
+	private boolean nightFish;
+	/**
+	 * 是否方便停车
+	 */
+	private boolean easyPark;
+	/**
 	 * 获得 id int
 	 * @return id
 	 */
@@ -179,14 +199,88 @@ public class Point implements Serializable {
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
+	/**
+	 * 获得 waterDeep
+	 * @return the waterDeep
+	 */
+	public int getWaterDeep() {
+		return waterDeep;
+	}
+	/**
+	 * 设置 waterDeep
+	 * @param waterDeep the waterDeep to set
+	 */
+	public void setWaterDeep(int waterDeep) {
+		this.waterDeep = waterDeep;
+	}
+	/**
+	 * 获得 price
+	 * @return the price
+	 */
+	public int getPrice() {
+		return price;
+	}
+	/**
+	 * 设置 price
+	 * @param price the price to set
+	 */
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	/**
+	 * 获得 unit
+	 * @return the unit
+	 */
+	public String getUnit() {
+		return unit;
+	}
+	/**
+	 * 设置 unit
+	 * @param unit the unit to set
+	 */
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	/**
+	 * 获得 nightFish
+	 * @return the nightFish
+	 */
+	public boolean isNightFish() {
+		return nightFish;
+	}
+	/**
+	 * 设置 nightFish
+	 * @param nightFish the nightFish to set
+	 */
+	public void setNightFish(boolean nightFish) {
+		this.nightFish = nightFish;
+	}
+	/**
+	 * 获得 easyPark
+	 * @return the easyPark
+	 */
+	public boolean isEasyPark() {
+		return easyPark;
+	}
+	/**
+	 * 设置 easyPark
+	 * @param easyPark the easyPark to set
+	 */
+	public void setEasyPark(boolean easyPark) {
+		this.easyPark = easyPark;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Point [id=" + id + ", typeId=" + typeId + ", remark="
-				+ remark + ", createTime=" + createTime + ", creator="
-				+ creator + ", updateTime=" + updateTime + ", updator="
-				+ updator + "]";
+		return "Point [id=" + id + ", typeId=" + typeId + ", remark=" + remark
+				+ ", createTime=" + createTime + ", creator=" + creator
+				+ ", updateTime=" + updateTime + ", updator=" + updator
+				+ ", latitude=" + latitude + ", longitude=" + longitude
+				+ ", waterDeep=" + waterDeep + ", price=" + price + ", unit="
+				+ unit + ", nightFish=" + nightFish + ", easyPark=" + easyPark
+				+ "]";
 	}
+	
 }

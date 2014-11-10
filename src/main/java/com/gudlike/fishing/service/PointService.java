@@ -31,4 +31,13 @@ public class PointService extends BaseService<Point>{
 		map.put("endLongitude", endLongitude);
 		return this.selectList("queryListInRange",map);
 	}
+	
+	/**
+	 * 插入渔点
+	 * @param point
+	 * @return
+	 */
+	public boolean insertPoint(Point point){
+		return this.insert("insert", point);
+	}
 }

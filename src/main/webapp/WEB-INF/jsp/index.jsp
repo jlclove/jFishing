@@ -8,9 +8,52 @@
 <%@ include file="common/_foot.jsp" %>
 
 <div id="pointModal" class="reveal-modal" data-reveal>
-  <h2>Awesome. I have it.</h2>
-  <p class="lead">Your couch.  It is mine.</p>
-  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+  <h2>添加渔点</h2>
+  <p class="lead">输入相关信息.</p>
+  <table cellspacing="0" cellpadding="0">
+  	<tr>
+  		<td>类型:</td><td><select name="typeId">
+  							<option>鱼塘</option>
+  							<option>野外鱼点</option>
+  							<option>渔具店</option>
+  						</select></td>
+  	</tr>
+  	<tr>
+  		<td>鱼种类：</td><td></td>
+  	</tr>
+  	<tr>
+  		<td>钓鱼水深：</td><td></td>
+  	</tr>
+  	<tr>
+  		<td>钓鱼费用：</td><td><select name="price">
+  							<option>0元</option>
+  							<option>1元</option>
+  							<option>2元</option>
+  						</select>
+  						<select name="unit">
+  							<option>天</option>
+  							<option>小时</option>
+  							<option>斤</option>
+  						</select></td>
+  	</tr>
+  	<tr>
+  		<td>是否可以夜钓：</td><td><label><input type="radio" value="1" name="nightFish">是</label>
+  								<label><input type="radio" value="0" name="nightFish">否</label></td>
+  	</tr>
+	<tr>
+  		<td>是否方便停车：</td><td><label><input type="radio" value="1" name="easyPark">是</label>
+  								<label><input type="radio" value="0" name="easyPark">否</label></td>
+  	</tr>
+  	<tr>
+  		<td>描述：</td><td><textarea name="remark"></textarea></td>
+  	</tr>
+ 	<tr>
+  		<td colspan="2">
+  			<a href="#" class="button [radius round]">提交数据</a>
+  		</td>
+  	</tr>
+  </table>
+  <p></p>
   <a class="close-reveal-modal">&#215;</a>
 </div>
 
