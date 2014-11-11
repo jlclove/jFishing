@@ -4,19 +4,31 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gudlike.fishing.controller.BaseController;
 import com.gudlike.fishing.model.JsonResult;
+import com.gudlike.fishing.model.Point;
+import com.gudlike.fishing.service.PointFishService;
 import com.gudlike.fishing.service.PointService;
 
 @Controller
 @RequestMapping("/point")
 public class PointController extends BaseController {
 
+	/**
+	 * 自动注入的PointService
+	 */
 	@Autowired
 	private PointService pointService;
+	/**
+	 * 自动注入的PointFishService
+	 */
+	@Autowired
+	private PointFishService pointFishService;
 
 	@RequestMapping("/getPointListInRange")
 	@ResponseBody
@@ -33,8 +45,21 @@ public class PointController extends BaseController {
 		return "point/add";
 	}
 
-	@RequestMapping("/test")
-	protected String test(HttpServletRequest request) {
-		return "point/test";
+	/**
+	 * 添加渔点
+	 * 
+	 * @param point
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@ResponseBody
+	protected JsonResult addPost(@ModelAttribute Point point,
+			HttpServletRequest request) {
+		if (pointService.insertPoint(point, request.getParameter("fishIds"))) {
+			return JsonResult.OK;
+		} else {
+			return JsonResult.FAIL;
+		}
 	}
 }

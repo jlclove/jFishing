@@ -10,5 +10,7 @@
 	<mappers>
 		<mapper resource="mappers/Point.xml" />
 		<mapper resource="mappers/Fish.xml" />
+		<mapper resource="mappers/PointType.xml" />
+		<mapper resource="mappers/PointFish.xml" />
 	</mappers>
 </configuration>

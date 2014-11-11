@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PointFish">
+	<!-- 批量插入 渔点与鱼的对应关系 -->
+	<select id="batchInsert" parameterType="list">
+		insert into T_Point_Fish (fishId,pointId)
+		values
+		<foreach collection="list" item="pointFish" separator=",">
+			(#{pointFish.fishId},#{pointFish.pointId})
+		</foreach>
+	</select>
+</mapper>

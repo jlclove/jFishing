@@ -73,6 +73,11 @@ public class Point implements Serializable {
 	 * 是否方便停车
 	 */
 	private boolean easyPark;
+	
+	/**
+	 * 渔点能钓的鱼名集合
+	 */
+	private String fishNames;
 	/**
 	 * 获得 id int
 	 * @return id
@@ -269,7 +274,21 @@ public class Point implements Serializable {
 	public void setEasyPark(boolean easyPark) {
 		this.easyPark = easyPark;
 	}
-	/* (non-Javadoc)
+	/**
+	 * 获得 fishNames String
+	 * @return fishNames
+	 */
+	public String getFishNames() {
+		return fishNames;
+	}
+	/**
+	 * 设置 fishNames
+	 * @param fishNames 
+	 */
+	public void setFishNames(String fishNames) {
+		this.fishNames = fishNames;
+	}
+	/* 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -280,7 +299,6 @@ public class Point implements Serializable {
 				+ ", latitude=" + latitude + ", longitude=" + longitude
 				+ ", waterDeep=" + waterDeep + ", price=" + price + ", unit="
 				+ unit + ", nightFish=" + nightFish + ", easyPark=" + easyPark
-				+ "]";
+				+ ", fishNames=" + fishNames + "]";
 	}
-	
 }

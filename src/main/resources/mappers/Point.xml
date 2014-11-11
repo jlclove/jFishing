@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Point">
-	<select id="queryListInRange" resultType="pointViewWithType" parameterType="java.util.HashMap">
+	<select id="queryListInRange" resultType="pointViewWithType"
+		parameterType="java.util.HashMap">
 		select * from V_PointWithType
-		where latitude between #{startLatitude} and #{endLatitude}
-		and longitude between #{startLongitude} and #{endLongitude}
+		where latitude between
+		#{startLatitude} and #{endLatitude}
+		and longitude between
+		#{startLongitude} and #{endLongitude}
 	</select>
-	
-	<insert id="insert">
+
+	<insert id="insertAndReturnId">
 		insert into T_Point (typeId,remark,creator,updator,latitude,longitude,
-							 waterDeep,price,unit,nightFish,easyPark)
-		values (#{typeId},#{remark},#{creator},#{creator},#{latitude},#{longitude},
-							 #{waterDeep},#{price},#{unit},#{nightFish},#{easyPark})
+		waterDeep,price,unit,nightFish,easyPark,fishNames)
+		values
+		(#{typeId},#{remark},#{creator},#{creator},#{latitude},#{longitude},
+		#{waterDeep},#{price},#{unit},#{nightFish},#{easyPark},#{fishNames})
+		<selectKey resultType="int" keyColumn="id">
+			SELECT
+			LAST_INSERT_ID() AS id
+		</selectKey>
 	</insert>
 </mapper>

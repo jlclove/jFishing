@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.gudlike.fishing.service;
 
 import java.util.List;

@@ -36,3 +36,17 @@ ADD COLUMN `easyPark` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否方便停车'
 INSERT INTO `gudlike_fishing`.`t_fish` (`fishName`, `remark`) VALUES ('桂鱼', '很好吃的鱼');
 INSERT INTO `gudlike_fishing`.`t_fish` (`fishName`, `remark`) VALUES ('鲶鱼', '水煮用比较多');
 
+
+
+------------  2014-11-11   ------ 
+INSERT INTO `gudlike_fishing`.`t_point_type` (`typeName`) VALUES ('高级渔点');
+ALTER TABLE `gudlike_fishing`.`t_point` 
+ADD COLUMN `fishNames` VARCHAR(2000) NULL COMMENT '钓鱼名称集合' AFTER `easyPark`;
+
+
+CREATE TABLE `gudlike_fishing`.`t_point_fish` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `fishId` INT NOT NULL COMMENT '鱼ID',
+  `pointId` INT NOT NULL COMMENT '渔点ID',
+  PRIMARY KEY (`id`));
+
