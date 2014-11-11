@@ -11,8 +11,8 @@ import org.apache.ibatis.type.Alias;
  *
  * @date 2014年10月30日
  */
-@Alias("vPoint")
-public class VPoint extends Point{
+@Alias("pointWithType")
+public class PointWithType extends Point{
 
 	private static final long serialVersionUID = 4549451095098166915L;
 	

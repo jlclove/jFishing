@@ -1,9 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<jsp:include page="../common/_head.jsp">
-	<jsp:param value="添加渔点" name="title"/>
-</jsp:include>
-<%@ include file="../common/_menu.jsp" %>
-
-
-
-<%@ include file="../common/_foot.jsp" %>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="/static/js/vendor/jquery.js"></script>
+	<script src="/static/js/vendor/template-native.js"></script>
+</head>
+<body>
+<script id="test" type="text/html">
+	{{name}}
+</script>
+<script type="text/javascript">
+	var data = {
+			name:'abc'
+	}
+	var html = template('test',data);
+	console.log(html);
+</script>
+</body>
+</html>

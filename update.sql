@@ -50,3 +50,30 @@ CREATE TABLE `gudlike_fishing`.`t_point_fish` (
   `pointId` INT NOT NULL COMMENT '渔点ID',
   PRIMARY KEY (`id`));
 
+  
+ CREATE 
+    ALGORITHM = MERGE 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `v_pointwithtype` AS
+    SELECT 
+        `a`.`id` AS `id`,
+        `a`.`typeId` AS `typeId`,
+        `a`.`remark` AS `remark`,
+        `a`.`createTime` AS `createTime`,
+        `a`.`creator` AS `creator`,
+        `a`.`updateTime` AS `updateTime`,
+        `a`.`updator` AS `updator`,
+        `a`.`latitude` AS `latitude`,
+        `a`.`longitude` AS `longitude`,
+        `b`.`typeName` AS `typeName`,
+        `a`.`fishNames` AS `fishNames`,
+        `a`.`waterDeep` AS `waterDeep`,
+        `a`.`price` AS `price`,
+        `a`.`unit` AS `unit`,
+        `a`.`easyPark` AS `easyPark`,
+        `a`.`nightFish` AS `nightFish`
+    FROM
+        (`t_point` `a`
+        JOIN `t_point_type` `b` ON ((`a`.`typeId` = `b`.`id`)))
+

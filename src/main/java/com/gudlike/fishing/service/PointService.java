@@ -58,4 +58,14 @@ public class PointService extends BaseService<Point> {
 			return false;
 		}
 	}
+
+	/**
+	 * 根据ID获得渔点
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Point getPoint(int id) {
+		return this.selectOne("queryBean", id);
+	}
 }

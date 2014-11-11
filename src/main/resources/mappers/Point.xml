@@ -21,4 +21,8 @@
 			LAST_INSERT_ID() AS id
 		</selectKey>
 	</insert>
+	
+	<select id="queryBean" resultType="pointWithType">
+		select * from v_pointwithtype where id= #{id}
+	</select>
 </mapper>

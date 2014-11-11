@@ -12,6 +12,7 @@
 <link href="/static/css/main.css" rel="stylesheet">
 <script src="/static/js/vendor/modernizr.js"></script>
 <script src="/static/js/vendor/underscore-min.js"></script>
+<script src="/static/js/vendor/template-native.js"></script>
 <script type="text/javascript" src="/static/js/vendor/jquery.js"></script>
 <script type="text/javascript" src="/static/js/foundation.min.js"></script>
 <script type="text/javascript"

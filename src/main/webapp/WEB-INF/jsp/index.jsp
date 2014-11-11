@@ -7,7 +7,7 @@
 <div id="container"></div>
 <%@ include file="common/_foot.jsp"%>
 
-<div id="pointModal" class="reveal-modal" data-reveal>
+<div id="pointAddModal" class="reveal-modal" data-reveal>
 	<h2>添加渔点</h2>
 	<p class="lead">输入相关信息.</p>
 	<table cellspacing="0" cellpadding="0" class="pointAddForm">
@@ -80,6 +80,74 @@
 </div>
 
 
+<div id="pointDetailModal" class="reveal-modal" data-reveal>
+<%-- 		<tr>
+			<td><label class="right inline">鱼种类：</label></td>
+			<td><%=data.fishNames%></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">钓鱼水深：</label></td>
+			<td><%=data.waterDeep%>厘米</td>
+		</tr>
+		<tr>
+			<td><label class="right inline">钓鱼费用：</label></td>
+			<td><%=data.price%> <%=data.unit%></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">是否可以夜钓：</label></td>
+			<td><%=data.nightFish%></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">是否方便停车：</label></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">描述：</label></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td colspan="2"><a href="javascript:void(0);"
+				class="button radius" id="submitButton">关闭</a></td>
+		</tr>
+ --%>	</table>
+</div>
+
+<script id="detail" type="text/html">
+	<h2>渔点详情</h2>
+        <table cellspacing="0" cellpadding="0" class="pointAddForm">
+		<tr>
+			<td class="width33"><label class="right inline">类型:</label></td>
+			<td><label class="inline">{{typeName}}</label></td>
+		</tr>
+ 		<tr>
+			<td><label class="right inline">鱼种类：</label></td>
+			<td><label class="inline">{{fishNames}}</label></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">钓鱼水深：</label></td>
+			<td><label class="inline">{{waterDeep}} 厘米</label></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">钓鱼费用：</label></td>
+			<td><label class="inline">{{price}}元/{{unit}}</label></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">是否可以夜钓：</label></td>
+			<td><label class="inline">{{if nightFish}}是{{else}}否{{/if}}</label></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">是否方便停车：</label></td>
+			<td><label class="inline">{{if easyPark}}是{{else}}否{{/if}}</label></td>
+		</tr>
+		<tr>
+			<td><label class="right inline">描述：</label></td>
+			<td><label class="inline">{{remark}}</label></td>
+		</tr>
+	</table>
+	<p></p>
+	<a class="close-reveal-modal">&#215;</a>
+</script>
+
 <script type="text/javascript">
 	$(function() {
 		var pointArray = [];
@@ -93,7 +161,7 @@
 			map.addControl(new BMap.ScaleControl());
 			loadPoint();
 			addMapMoveEndListener(map);
-			addMapClickListener(map);
+		//	addMapClickListener(map);
 		});
 
 		/* var control  = new BMap.GeolocationControl({showAddressBar:false,
@@ -135,8 +203,8 @@
 								removeFocusMarker();
 								focusMarker = new BMap.Marker(type.point);
 								map.addOverlay(focusMarker);
-								var a = $('<a href="#" data-reveal-id="pointModal">添加此处为渔点</a>');
-								var infoWindow = new BMap.InfoWindow(a[0], {
+								var add = $('<a href="#" data-reveal-id="pointModal">添加此处为渔点</a>');
+								var infoWindow = new BMap.InfoWindow(add[0], {
 									width : 220,
 									height : 60,
 									enableMessage : false,
@@ -144,19 +212,19 @@
 									enableCloseOnClick : false
 								});
 								map.openInfoWindow(infoWindow, type.point);
-								a.on('click', function() {
-									$('#pointModal').foundation('reveal',
+								addPoint.on('click', function() {
+									$('#pointAddModal').foundation('reveal',
 											'open');
 								});
-							/* 	infoWindow.addEventListener('clickclose',
-										function(type, target) {
-											removeFocusMarker();
-										}); */
+								/* 	infoWindow.addEventListener('clickclose',
+											function(type, target) {
+												removeFocusMarker();
+											}); */
 							});
 		}
-		
+
 		//清除当前活跃 infoWindow
-		removeFocusMarker = function(){
+		removeFocusMarker = function() {
 			map.closeInfoWindow()
 			map.removeOverlay(focusMarker);
 		}
@@ -165,12 +233,28 @@
 		createPoint = function(point) {
 			var marker = new BMap.Marker(new BMap.Point(point.longitude,
 					point.latitude));
-			marker.addEventListener("click", function(type) {
-				this.openInfoWindow(new BMap.InfoWindow(
-						'<div class="infoWindow"><p class="title">'
-								+ point.typeName + '（ID：' + point.id
-								+ '）</p><p>' + point.remark + '</p></div>'));
-			});
+			marker
+					.addEventListener(
+							"click",
+							function(type) {
+								var detail = $('<div class="infoWindow"><p class="title">'
+										+ point.typeName
+										+ '（ID：'
+										+ point.id
+										+ '）<a href="#" pointId='+point.id+' data-reveal-id="pointDetailModal" data-reveal-ajax="true">查看</a></p><p>'
+										+ point.remark + '</p></div>');
+								this
+										.openInfoWindow(new BMap.InfoWindow(
+												detail[0]));
+								$($(detail).find('a')[0]).on('click', function() {
+									event.preventDefault();
+	               					$.getJSON('/point/' + $(this).attr('pointId'), function(data) {
+	               						var html = template('detail',data.point);
+								       	//$('#pointDetailModal').html(html);
+					                	 $('#pointDetailModal').html(html).foundation('reveal', 'open');
+					                });
+								});
+							});
 			return marker;
 		}
 
@@ -191,7 +275,7 @@
 		$('#submitButton').on(
 				'click',
 				function() {
-					if($(this).hasClass('disabled')){
+					if ($(this).hasClass('disabled')) {
 						return;
 					}
 					$(this).addClass('disabled');
@@ -220,7 +304,8 @@
 									'success').html('渔点添加成功。').fadeIn(2000)
 									.fadeOut(2000);
 							window.setTimeout(function() {
-								$('#pointModal').foundation('reveal', 'close')
+								$('#pointAddModal').foundation('reveal',
+										'close')
 							}, 2000);
 							removeFocusMarker();
 							loadPoint();
