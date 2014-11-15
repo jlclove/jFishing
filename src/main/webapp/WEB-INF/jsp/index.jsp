@@ -81,7 +81,7 @@
 
 
 <div id="pointDetailModal" class="reveal-modal" data-reveal>
-<%-- 		<tr>
+	<%-- 		<tr>
 			<td><label class="right inline">鱼种类：</label></td>
 			<td><%=data.fishNames%></td>
 		</tr>
@@ -109,7 +109,8 @@
 			<td colspan="2"><a href="javascript:void(0);"
 				class="button radius" id="submitButton">关闭</a></td>
 		</tr>
- --%>	</table>
+ --%>
+	</table>
 </div>
 
 <script id="detail" type="text/html">
@@ -154,30 +155,32 @@
 		var focusMarker;
 		var map = new BMap.Map("container");
 
-		$.getJSON('/api/baidu/location/ip', function(data) {
-			var point = new BMap.Point(data.content.point.x,
-					data.content.point.y);
-			map.centerAndZoom(point, 18);
-			map.addControl(new BMap.ScaleControl());
-			loadPoint();
-			addMapMoveEndListener(map);
-		//	addMapClickListener(map);
-		});
+		/* 	$.getJSON('/api/baidu/location/ip', function(data) {
+				var point = new BMap.Point(data.content.point.x,
+						data.content.point.y);
+				map.centerAndZoom(point, 18);
+				map.addControl(new BMap.ScaleControl());
+				loadPoint();
+				addMapMoveEndListener(map);
+				addMapClickListener(map);
+			}); */
 
-		/* var control  = new BMap.GeolocationControl({showAddressBar:false,
-			enableAutoLocation:true,locationIcon:
-					new BMap.Icon('/static/img/navigation_d11feb4.png',
-										new BMap.Size(75,77),{
-															    anchor: new BMap.Size(0, 0),
-															    infoWindowAnchor: new BMap.Size(10, 0)
-															})
-												 });
+		//手机定位
+		var control = new BMap.GeolocationControl({
+			showAddressBar : true,
+			enableAutoLocation : true,
+			locationIcon : new BMap.Icon('/static/img/navigation_d11feb4.png',
+					new BMap.Size(75, 77), {
+						anchor : new BMap.Size(0, 0),
+						infoWindowAnchor : new BMap.Size(10, 0)
+					})
+		});
 		map.addControl(control);
-		control.addEventListener('locationSuccess', function(){
+		control.addEventListener('locationSuccess', function() {
 			loadPoint(map);
 			addMapMoveEndListener(map);
-			addMapClickListener(map);
-		}); */
+			addMapLongPressListener(map);
+		});
 
 		//添加地图类型选项
 		map.addControl(new BMap.MapTypeControl());
@@ -193,34 +196,43 @@
 			});
 		}
 
-		//创建地图点击事件
+		//创建地图长按事件
 		addMapClickListener = function(map) {
 			//点击准备创建渔点
-			map
-					.addEventListener(
-							'click',
-							function(type, target) {
-								removeFocusMarker();
-								focusMarker = new BMap.Marker(type.point);
-								map.addOverlay(focusMarker);
-								var add = $('<a href="#" data-reveal-id="pointModal">添加此处为渔点</a>');
-								var infoWindow = new BMap.InfoWindow(add[0], {
-									width : 220,
-									height : 60,
-									enableMessage : false,
-									offset : new BMap.Size(0, -22),
-									enableCloseOnClick : false
-								});
-								map.openInfoWindow(infoWindow, type.point);
-								addPoint.on('click', function() {
-									$('#pointAddModal').foundation('reveal',
-											'open');
-								});
-								/* 	infoWindow.addEventListener('clickclose',
-											function(type, target) {
-												removeFocusMarker();
-											}); */
-							});
+			map.addEventListener('click', function(type, target) {
+				showAddModal(type, target);
+			});
+		}
+
+		//创建地图点击事件
+		addMapLongPressListener = function(map) {
+			//点击准备创建渔点
+			map.addEventListener('longpress', function(type, target) {
+				showAddModal(type, target);
+			});
+		}
+
+		//显示添加渔点的层事件
+		showAddModal = function(type, target) {
+			removeFocusMarker();
+			focusMarker = new BMap.Marker(type.point);
+			map.addOverlay(focusMarker);
+			var add = $('<a href="#" data-reveal-id="pointModal">添加此处为渔点</a>');
+			var infoWindow = new BMap.InfoWindow(add[0], {
+				width : 220,
+				height : 60,
+				enableMessage : false,
+				offset : new BMap.Size(0, -22),
+				enableCloseOnClick : false
+			});
+			map.openInfoWindow(infoWindow, type.point);
+			add.on('click', function() {
+				$('#pointAddModal').foundation('reveal', 'open');
+			});
+			/* 	infoWindow.addEventListener('clickclose',
+						function(type, target) {
+							removeFocusMarker();
+						}); */
 		}
 
 		//清除当前活跃 infoWindow
@@ -243,17 +255,35 @@
 										+ point.id
 										+ '）<a href="#" pointId='+point.id+' data-reveal-id="pointDetailModal" data-reveal-ajax="true">查看</a></p><p>'
 										+ point.remark + '</p></div>');
-								this
-										.openInfoWindow(new BMap.InfoWindow(
-												detail[0]));
-								$($(detail).find('a')[0]).on('click', function() {
-									event.preventDefault();
-	               					$.getJSON('/point/' + $(this).attr('pointId'), function(data) {
-	               						var html = template('detail',data.point);
-								       	//$('#pointDetailModal').html(html);
-					                	 $('#pointDetailModal').html(html).foundation('reveal', 'open');
-					                });
-								});
+								this.openInfoWindow(new BMap.InfoWindow(
+										detail[0]));
+								$($(detail).find('a')[0])
+										.on(
+												'click',
+												function() {
+													event.preventDefault();
+													$
+															.getJSON(
+																	'/point/'
+																			+ $(
+																					this)
+																					.attr(
+																							'pointId'),
+																	function(
+																			data) {
+																		var html = template(
+																				'detail',
+																				data.point);
+																		//$('#pointDetailModal').html(html);
+																		$(
+																				'#pointDetailModal')
+																				.html(
+																						html)
+																				.foundation(
+																						'reveal',
+																						'open');
+																	});
+												});
 							});
 			return marker;
 		}

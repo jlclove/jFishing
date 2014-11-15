@@ -10,6 +10,10 @@ body {
 	color:#333;
 }
 
+.left-off-canvas-menu{
+	height:400px;
+}
+
 #container {
 	height: 100%;
 }
@@ -42,4 +46,6 @@ body {
 .width33{
 	width:33%;
 }
+
+
 
